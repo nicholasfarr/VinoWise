@@ -1,14 +1,10 @@
-### Cleaning and Preparing the Data from Kaggle Repo
 
-### Link to Data Set: https://www.kaggle.com/datasets/zynicide/wine-reviews?resource=download
+# Link to Data Set: https://www.kaggle.com/datasets/zynicide/wine-reviews?resource=download
 
-
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
+import pandas as pd 
+from WineNode import WineNode 
 
 ## Read in (130k columns)
-wine_data = pd.read_csv('DATA/winemag-data-130k-v2.csv')
 
 ### Only care about Name,Country,Price,Wine Score
 
@@ -18,6 +14,33 @@ wine_data = pd.read_csv('DATA/winemag-data-130k-v2.csv')
 
 ### wine_data = wine_data.drop(columns = ['province', ''], inplace = True)
 
+def load_wine_nodes():
+    filepath = 'DATA/winemag-data-130k-v2.csv'
 
+    pandasData = pd.read_csv(filepath)
+
+    #drop nodes without theses values
+    pandasData = pandasData.dropna(subset=["country", "description", "points", "price", "title", "variety", "winery"])
+
+    wine_nodes = []
+
+    for i, row in pandasData.iterrows():
+        try:
+            node = WineNode(
+                wine_id=i,  #miight not be needed imo
+                variety=row["variety"],
+                country=row["country"],
+                price=float(row["price"]),
+                points=int(row["points"]),
+                description=row["description"],
+                winery=row["winery"],
+                title=row["title"]
+            )
+            wine_nodes.append(node)
+        except Exception as e:
+            print(f"Error at row {i}: {e}")
+            continue
+
+    return wine_nodes
 
 
