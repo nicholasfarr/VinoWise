@@ -3,6 +3,7 @@
 
 import pandas as pd 
 from WineNode import WineNode 
+import os
 
 ## Read in (130k columns)
 
@@ -15,9 +16,11 @@ from WineNode import WineNode
 ### wine_data = wine_data.drop(columns = ['province', ''], inplace = True)
 
 def load_wine_nodes():
-    filepath = 'DATA/winemag-data-130k-v2.csv'
+    base_path = os.path.dirname(__file__)  # Gets the path of WineData.py
+    csv_path = os.path.join(base_path, '..', 'DATA', 'winemag-data-130k-v2.csv')
+    csv_path = os.path.abspath(csv_path)  # Converts to full path
 
-    pandasData = pd.read_csv(filepath)
+    pandasData = pd.read_csv(csv_path)
 
     #drop nodes without theses values
     pandasData = pandasData.dropna(subset=["country", "description", "points", "price", "title", "variety", "winery"])
