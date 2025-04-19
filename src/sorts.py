@@ -36,7 +36,7 @@ def quick_sort(items, low=0, high=None):
     while low < high:
         p = partition(low, high)
 
-        #used tail call optimization referenced this article. https://www.geeksforgeeks.org/quicksort-tail-call-optimization-reducing-worst-case-space-log-n/
+        #used tail call optimization referenced this article didn't directly copy just implement strategy to part of the quick sort function. https://www.geeksforgeeks.org/quicksort-tail-call-optimization-reducing-worst-case-space-log-n/
         if p - low < high - p:
             quick_sort(items, low, p - 1)
             low = p + 1
