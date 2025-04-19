@@ -10,8 +10,8 @@ class WineNode:
         self.points = points #could also let the user see top 100 rated wines or something
         self.price = price
         self.keywords = self.createKeywords()  #to make a similarity score
-        self.similarity_score = 0.0
-        self.neighbors = [] #could be a list of wine nodes or a set of wine nodes
+        self.neighbors = {} #node: similarity score
+
 
     def createKeywords(self):
         keywords = set() #can use our R-B tree here too (i dont know if we doin that) COULD MAKE A CUSTOM TRIE TOO!!!
@@ -21,3 +21,13 @@ class WineNode:
                 if clean:
                     keywords.add(clean)
         return list(keywords)
+    
+    def similarityScore(self, other):
+        #used this thing called jaccard similarity
+        #can also use additional methods like cosine similarity and euclidean distance
+        #could also use other features of wine for similarity on top of keywords
+        intersection = len(set(self.keywords) & set(other.keywords))
+        union = len(set(self.keywords) | set(other.keywords))
+        if union == 0:
+            return 0
+        return intersection / union
