@@ -1,4 +1,5 @@
 from WineData import *
+from WineSort import *
 
 def main():
     wine_nodes = load_wine_nodes()
@@ -10,7 +11,7 @@ def main():
         print(f"Wine ID: {node.id}, Name: {node.title}, Points: {node.points}, Price: {node.price}")
         createSimilarityScoreDict(wine_nodes, node)
         print(f"Similarity scores for {node.title}:")
-        for neighbor, score in node.neighbors.items():
+        for neighbor, score in findRecommendationsMerge(node, 5):
             print(f"Neighbor: {neighbor.title}, Similarity Score: {score}")
         
 
