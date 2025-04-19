@@ -18,11 +18,6 @@ def merge_sort(items):
     merged.extend(right[j:])
     return merged
 
-def merge_sort_top5(d):
-
-    items = list(d.items())             
-    sorted_items = merge_sort(items)
-    return [key for key, _ in sorted_items[:5]]
 
 
 def quick_sort(items, low=0, high=None):
@@ -42,10 +37,3 @@ def quick_sort(items, low=0, high=None):
         p = partition(low, high)
         quick_sort(items, low, p - 1)
         quick_sort(items, p + 1, high)
-
-def quick_sort_top5(d):
-    items = list(d.items())
-    quick_sort(items)
-    return [key for key, _ in items[:5]]
-
-

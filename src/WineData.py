@@ -44,3 +44,8 @@ def load_wine_nodes():
     return wine_nodes
 
 
+def findWineByName(wine_nodes, title):
+    for node in wine_nodes:
+        if node.title == title:
+            return node
+    raise NameError(f"Wine with title '{title}' not found.")

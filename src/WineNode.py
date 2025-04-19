@@ -11,6 +11,7 @@ class WineNode:
         self.price = price
         self.keywords = self.createKeywords()  #to make a similarity score
         self.similarity_score = 0.0
+        self.neighbors = [] #could be a list of wine nodes or a set of wine nodes
 
     def createKeywords(self):
         keywords = set() #can use our R-B tree here too (i dont know if we doin that) COULD MAKE A CUSTOM TRIE TOO!!!
