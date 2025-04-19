@@ -11,7 +11,7 @@ def main():
         print(f"Wine ID: {node.id}, Name: {node.title}, Points: {node.points}, Price: {node.price}")
         createSimilarityScoreDict(wine_nodes, node)
         print(f"Similarity scores for {node.title}:")
-        for neighbor, score in findRecommendationsMerge(node, 5):
+        for neighbor, score in findRecommendationsQuick(node, 5):
             print(f"Neighbor: {neighbor.title}, Similarity Score: {score}")
         
 

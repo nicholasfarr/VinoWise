@@ -33,7 +33,14 @@ def quick_sort(items, low=0, high=None):
         items[i+1], items[hi] = items[hi], items[i+1]
         return i+1
 
-    if low < high:
+    while low < high:
         p = partition(low, high)
-        quick_sort(items, low, p - 1)
-        quick_sort(items, p + 1, high)
+
+        #used tail call optimization referenced this article. https://www.geeksforgeeks.org/quicksort-tail-call-optimization-reducing-worst-case-space-log-n/
+        if p - low < high - p:
+            quick_sort(items, low, p - 1)
+            low = p + 1
+        else:
+            quick_sort(items, p + 1, high)
+            high = p - 1
+    return items
