@@ -54,7 +54,13 @@ def findWineByName(wine_nodes, title):
     raise NameError(f"Wine with title '{title}' not found.")
 
 def createSimilarityScoreDict(wine_nodes, node):
+    used_numbers = set()
     for other_node in wine_nodes:
         if node.id != other_node.id:
+            
             score = node.similarityScore(other_node)
+            if score > 0:
+                while score in used_numbers:
+                    score += 0.000001  #linear probing !!!!!!!!
+            used_numbers.add(score)         
             node.neighbors[other_node] = score
