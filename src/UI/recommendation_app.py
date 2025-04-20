@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+
+
 import sys
 import os
 
@@ -14,7 +16,6 @@ from WineSort import *
 
 
 # Load data once
-## NEED TO UPDATE AND USE IN HOUSE FUNCTIONS
 @st.cache_data
 def load_wine_data(): #caching the data so we dont have to load it every time
     return load_wine_nodes()
@@ -29,14 +30,28 @@ st.markdown(
 )
 
 col1, col2 = st.columns(2)
+
 with col1:
     st.markdown(
-    "<div style='text-align: center; font-size: 20px; font-weight: 500; margin-bottom: 10px;'>Find similar wines by name</div>",
-    unsafe_allow_html=True)
-    with st.form(key="search_form"):
-        wine_name = st.text_input("Enter a wine you've tried and liked:")
-        amount = st.number_input("Number of recommendations:", min_value=1, max_value=50, value=5)
-        submitted = st.form_submit_button("🔍 Search")
+        "<div style='text-align: center; font-size: 20px; font-weight: 500; margin-bottom: 10px;'>Find similar wines by name</div>",
+        unsafe_allow_html=True)
+
+    wine_name = st.text_input("Start typing a wine you've tried and liked:")
+
+    confirmed = None
+    if wine_name:
+        suggested_nodes = getTopNRecommendations(wine_name, wine_data, 5)
+
+        if suggested_nodes:
+            st.markdown("### Matching Wines:")
+            for node in suggested_nodes:
+                if st.button(f"{node.title} – ${node.price} ({node.points} pts)"):
+                    wine_name = node.title 
+                    confirmed = True
+
+    amount = st.number_input("Number of recommendations:", min_value=1, max_value=50, value=5)
+
+
 with col2:
     st.markdown(
     "<div style='text-align: center; font-size: 20px; font-weight: 500; margin-bottom: 10px;'>Or by country + price</div>",
@@ -49,7 +64,7 @@ with col2:
 st.markdown("---")
 
 
-if submitted:
+if confirmed:
     node = findWineByName(wine_data, wine_name)
     if node:
         st.success(f"Found: {node.title} ({node.country}) - ${node.price}, {node.points} pts")

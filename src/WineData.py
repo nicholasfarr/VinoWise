@@ -64,3 +64,12 @@ def createSimilarityScoreDict(wine_nodes, node):
                     score += 0.000001  #linear probing !!!!!!!!
             used_numbers.add(score)         
             node.neighbors[other_node] = score
+
+
+def getTopNRecommendations(text_input, wine_nodes, amount):
+    #using sql to start generating similar sounding names
+    if not text_input:
+        return []
+    filtered_nodes = [node for node in wine_nodes if text_input.lower() in node.title.lower()]
+    return filtered_nodes[:amount]
+
