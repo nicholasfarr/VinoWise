@@ -41,6 +41,7 @@ with col2:
     "<h5 style='text-align: center; margin-bottom: 10px;'>Or by country + price</h5>",
     unsafe_allow_html=True)
     with st.form(key="fallback_form"):
+        country = st.text_input("Country:", value="US") 
         price = st.number_input("Approximate Price ($):", min_value=0.0, step=1.0)
         fallback_amount = st.number_input("Number of fallback recommendations:", min_value=1, max_value=50, value=5)
         fallback_submit = st.form_submit_button("🍷 Search by Price")
@@ -75,13 +76,14 @@ if submitted:
 if fallback_submit:
     fallback = [
         n for n in wine_data
-        if abs(n.price - price) <= 5
+        if n.country.lower() == country.lower() and abs(n.price - price) <= 5
     ]
     fallback.sort(key=lambda x: (-x.points, x.title))
 
     if fallback:
-        st.subheader("Recommendations based on price:")
+        st.subheader(f"Recommendations for wines from **{country.title()}** around ${price}:")
         for n in fallback[:fallback_amount]:
             st.markdown(f"**{n.title}** – ${n.price} ({n.points} pts)")
     else:
-        st.error("No recommendations found based on this price.")
+        st.error(f"No recommendations found for {country.title()} around ${price}.")
+    
